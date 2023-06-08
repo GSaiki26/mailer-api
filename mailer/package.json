@@ -5,7 +5,7 @@
   "author": "Saiki <GSaiki26@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc >> /dev/null",
+    "build": "tsc >> /dev/null; mkdir dist/proto; yarn run proto",
     "dev:checklinter": "prettier --check ./src",
     "dev:linter": "prettier --write ./src",
     "dev:proto": "grpc_tools_node_protoc --plugin ./node_modules/.bin/protoc-gen-ts --ts_out ./src/proto --grpc_out=grpc_js:./src/proto --js_out=import_style=commonjs:./src/proto -I ./src/proto ./src/proto/*",
@@ -14,9 +14,12 @@
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.15",
+    "google-protobuf": "^3.21.2",
     "grpc-tools": "^1.12.4",
+    "mongoose": "^7.2.2",
     "nodemailer": "^6.9.3",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "winston": "^3.9.0"
   },
   "devDependencies": {
     "grpc_tools_node_protoc_ts": "^5.3.3",

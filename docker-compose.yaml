@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  mailer-api:
+    container_name: mailer-api
+    build: ./mailer
+    volumes:
+      - ./certs:/app/certs:ro
+    env_file:
+      - ./db.env
+      - ./mailer.env
+    networks:
+      - service
+      - internal
+
+  mailer-db:
+    container_name: mailer-db
+    image: mongo:7.0.0-rc2-jammy
+    env_file:
+      - ./db.env
+    volumes:
+      - mailer-db:/data/db:rw
+    networks:
+      - internal
+
+networks:
+  internal:
+  service:
+
+volumes:
+  mailer-db:

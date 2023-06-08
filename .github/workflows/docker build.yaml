@@ -1,0 +1,24 @@
+name: "Docker build"
+
+on:
+  pull_request:
+    branches: [ develop ]
+  push:
+    branches: [ master ]
+
+jobs:
+  docker-build:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-22.04 ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create the env files.
+        run: cp db.example.env db.env; cp mailer.example.env mailer.env
+
+      - name: Try to build the project.
+        run: docker-compose build;
