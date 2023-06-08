@@ -4,6 +4,8 @@ services:
   mailer-api:
     container_name: mailer-api
     build: ./mailer
+    volumes:
+      - ./certs:/app/certs:ro
     env_file:
       - ./db.env
       - ./mailer.env
@@ -24,3 +26,6 @@ services:
 networks:
   internal:
   service:
+
+volumes:
+  mailer-db:
