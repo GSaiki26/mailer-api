@@ -5,6 +5,7 @@ services:
     container_name: mailer-api
     build: ./mailer
     env_file:
+      - ./db.env
       - ./mailer.env
     networks:
       - service
@@ -15,6 +16,8 @@ services:
     image: mongo:7.0.0-rc2-jammy
     env_file:
       - ./db.env
+    volumes:
+      - mailer-db:/data/db:rw
     networks:
       - internal
 
