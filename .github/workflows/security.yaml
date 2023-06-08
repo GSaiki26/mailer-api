@@ -1,0 +1,29 @@
+name: "Security"
+
+on:
+  pull_request:
+    branches: [ develop ]
+  push:
+    branches: [ master ]
+
+jobs:
+  check-snyk:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-22.04 ]
+        node-version: [ 19 ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Run snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: ./mailer
