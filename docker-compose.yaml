@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  mailer-api:
+    container_name: mailer-api
+    build: ./mailer
+    env_file:
+      - ./mailer.env
+    networks:
+      - service
+      - internal
+
+  mailer-db:
+    container_name: mailer-db
+    image: mongo:7.0.0-rc2-jammy
+    env_file:
+      - ./db.env
+    networks:
+      - internal
+
+networks:
+  internal:
+  service:

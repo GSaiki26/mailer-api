@@ -1,0 +1,19 @@
+// Basics
+syntax = "proto3";
+package mailer;
+
+// Services
+service mailerService {
+  rpc sendMail (sendMailReq) returns (sendMailRes);
+}
+
+// Messages
+// sendMail
+message sendMailReq {
+  string target = 1;
+  string cc = 2;
+  string body = 3;
+}
+message sendMailRes {
+  string status = 1;
+}

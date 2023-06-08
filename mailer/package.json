@@ -5,7 +5,7 @@
   "author": "Saiki <GSaiki26@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc >> /dev/null",
+    "build": "tsc >> /dev/null; mkdir dist/proto; yarn run proto",
     "dev:checklinter": "prettier --check ./src",
     "dev:linter": "prettier --write ./src",
     "dev:proto": "grpc_tools_node_protoc --plugin ./node_modules/.bin/protoc-gen-ts --ts_out ./src/proto --grpc_out=grpc_js:./src/proto --js_out=import_style=commonjs:./src/proto -I ./src/proto ./src/proto/*",
