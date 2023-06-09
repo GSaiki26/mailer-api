@@ -12,6 +12,8 @@ services:
     networks:
       - service
       - internal
+    depends_on:
+      - mailer-db
 
   mailer-db:
     container_name: mailer-db

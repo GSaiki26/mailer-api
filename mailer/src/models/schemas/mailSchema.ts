@@ -3,11 +3,38 @@ import { Schema, SchemaTypes } from "mongoose";
 
 // Schemas
 const mailSchema = new Schema({
-  id: SchemaTypes.UUID,
-  cc: SchemaTypes.Array,
-  target: SchemaTypes.Array,
-  body: SchemaTypes.String,
-  attachs: SchemaTypes.Buffer,
+  ccsList: {
+    type: [SchemaTypes.String],
+    required: true,
+  },
+  targetsList: {
+    type: [SchemaTypes.String],
+    required: true,
+  },
+  subject: {
+    type: SchemaTypes.String,
+    required: true,
+  },
+  body: {
+    type: SchemaTypes.String,
+    required: true,
+  },
+  attachsList: {
+    type: [
+      {
+        type: SchemaTypes.Map,
+        of: {
+          content: SchemaTypes.Buffer,
+          filename: SchemaTypes.String,
+        },
+      },
+    ],
+    required: true,
+  },
+  sended: {
+    type: SchemaTypes.Boolean,
+    required: true,
+  },
 });
 
 // Code
