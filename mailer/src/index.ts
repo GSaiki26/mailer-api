@@ -2,20 +2,19 @@
 import cluster from "cluster";
 import { cpus } from "os";
 
-import ServerModel from "./models/serverModel";
-import MigrationsModel from "./models/migrationsModel";
+import DatabaseModel from "./models/databaseModel";
 import LoggerModel from "./models/loggerModel";
+import ServerModel from "./models/serverModel";
+import mongoose from "mongoose";
 
 // Data
 const logger = LoggerModel.get("SERVER");
 
 // Functions
 async function main(): Promise<void> {
-  if (cluster.isPrimary) {
-    // Define the routes and run the migrations.
-    await MigrationsModel.migrations();
-    ServerModel.defineRoutes();
+  await DatabaseModel.connect();
 
+  if (cluster.isPrimary) {
     // Fork the cluster if MULTI_PROCESSING is enabled.
     if (process.env.MULTI_CLUSTER! == "true") {
       for (let i = 0; i < cpus().length; i++) {
@@ -26,11 +25,15 @@ async function main(): Promise<void> {
   }
 
   // Start the server.
+  ServerModel.defineRoutes();
   ServerModel.start();
 }
 
 // Events
-cluster.on("exit", (worker, code) => logger.info(`Cluster exited with code: ${code}`));
+cluster.on("exit", async (worker, code) => {
+  console.warn(`Cluster#${worker.process.pid} exited with code: ${code}`);
+  await mongoose.connection.close();
+});
 
 // Code
 main();

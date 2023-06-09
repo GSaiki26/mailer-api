@@ -3,18 +3,24 @@ syntax = "proto3";
 package mailer;
 
 // Services
-service mailerService {
-  rpc sendMail (sendMailReq) returns (sendMailRes);
+service MailerService {
+  rpc sendMail (SendMailReq) returns (SendMailRes);
 }
 
 // Messages
-// sendMail
-message sendMailReq {
-  repeated string targets = 1;
-  repeated string cc = 2;
-  string body = 3;
-  repeated bytes attachs = 4;
+message Attach {
+  string filename = 1;
+  bytes content = 2;
 }
-message sendMailRes {
+
+// sendMail
+message SendMailReq {
+  repeated string targets = 1;
+  repeated string ccs = 2;
+  string subject = 3;
+  string body = 4;
+  repeated Attach attachs = 5;
+}
+message SendMailRes {
   string status = 1;
 }

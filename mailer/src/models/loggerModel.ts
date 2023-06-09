@@ -8,14 +8,15 @@ const { colorize, combine, printf, timestamp } = format;
 class LoggerModel {
   public static get(owner: string): Logger {
     return createLogger({
-      transports: [
-        new transports.Console()
-      ],
+      transports: [new transports.Console()],
       format: combine(
         colorize(),
         timestamp(),
-        printf(info => `[${info.timestamp}] (${info.level}) ${owner}#${process.pid} - ${info.message}`)
-      )
+        printf(
+          (info) =>
+            `[${info.timestamp}] (${info.level}) ${owner}#${process.pid} - ${info.message}`
+        )
+      ),
     });
   }
 }

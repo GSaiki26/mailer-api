@@ -8,7 +8,7 @@
     "build": "tsc >> /dev/null; mkdir dist/proto; yarn run proto",
     "dev:checklinter": "prettier --check ./src",
     "dev:linter": "prettier --write ./src",
-    "dev:proto": "grpc_tools_node_protoc --plugin ./node_modules/.bin/protoc-gen-ts --ts_out ./src/proto --grpc_out=grpc_js:./src/proto --js_out=import_style=commonjs:./src/proto -I ./src/proto ./src/proto/*",
+    "dev:proto": "grpc_tools_node_protoc --plugin ./node_modules/.bin/protoc-gen-ts --ts_out ./src/proto --grpc_out=grpc_js:./src/proto --js_out=import_style=commonjs:./src/proto -I ./src/proto ./src/proto/*.proto",
     "proto": "grpc_tools_node_protoc --grpc_out=grpc_js:./dist/proto --js_out import_style=commonjs:./dist/proto -I ./src/proto ./src/proto/*.proto",
     "start:prod": "yarn run build; node ."
   },
@@ -22,6 +22,7 @@
     "winston": "^3.9.0"
   },
   "devDependencies": {
+    "@types/nodemailer": "^6.4.8",
     "grpc_tools_node_protoc_ts": "^5.3.3",
     "prettier": "^2.8.8"
   }
