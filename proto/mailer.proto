@@ -1,0 +1,22 @@
+// Basics
+syntax = "proto3";
+package mailer;
+
+// Services
+service Mailer {
+    rpc sendMail(Mail) returns (Mail);
+}
+
+// Messages
+message Mail {
+    repeated string from = 1;
+    repeated string to = 2;
+    string subject = 3;
+    string body = 4;
+    repeated Attachment attachments = 5;
+}
+
+message Attachment {
+    string name = 1;
+    bytes content = 2;
+}

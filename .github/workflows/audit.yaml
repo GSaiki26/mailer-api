@@ -1,0 +1,27 @@
+name: Audit
+
+on:
+  pull_request:
+    branches: [ develop, master ]
+  push:
+    branches: [ master ]
+
+jobs:
+  cargo-audit:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ ubuntu-22.04 ]
+        version: [ 1.75 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ATiltedTree/setup-rust@v1.0.5
+        with:
+          rust-version: ${{ matrix.version }}
+
+      - name: Install cargo audit
+        run: cargo install cargo-audit
+
+      - name: Run the cargo audit
+        run: cargo audit
