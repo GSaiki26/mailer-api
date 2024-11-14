@@ -1,0 +1,38 @@
+[package]
+name = "scheduler"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "scheduler"
+path = "./src/main.rs"
+
+[dependencies]
+models = { path = "../models" }
+chrono = { version = "0.4.38", default-features = false }
+config = { version = "0.14.0", default-features = false, features = ["yaml"] }
+lettre = { version = "0.11.10", default-features = false, features = [
+  "builder",
+  "hostname",
+  "pool",
+  "tokio1-rustls-tls",
+  "smtp-transport",
+] }
+sea-orm = { version = "1.1.1", default-features = true, features = [
+  "macros",
+  "runtime-tokio-rustls",
+  "sqlx-postgres",
+] }
+serde = { version = "1.0.210", default-features = false, features = ["derive"] }
+tokio = { version = "1.41.1", default-features = false, features = [
+  "macros",
+  "rt-multi-thread",
+] }
+tracing = { version = "0.1.40", default-features = false }
+tracing-subscriber = { version = "0.3.18", default-features = false, features = [
+  "env-filter",
+  "fmt",
+] }
+validator = { version = "0.19.0", default-features = false, features = [
+  "derive",
+] }

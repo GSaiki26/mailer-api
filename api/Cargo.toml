@@ -1,0 +1,12 @@
+[package]
+name = "api"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "api"
+path = "./src/main.rs"
+
+[dependencies]
+config = { version = "0.14.0", default-features = false, features = ["yaml"] }
+serde = { version = "1.0.210", default-features = false, features = ["derive"] }

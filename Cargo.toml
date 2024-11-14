@@ -1,0 +1,3 @@
+[workspace]
+members = ["api", "migration", "models", "scheduler"]
+resolver = "2"

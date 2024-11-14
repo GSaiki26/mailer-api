@@ -1,0 +1,14 @@
+repos:
+  - repo: local
+    hooks:
+      - id: cargo-audit
+        name: cargo audit
+        entry: cargo audit --ignore RUSTSEC-2023-0071
+        language: rust
+        pass_filenames: false
+
+      - id: cargo-clippy
+        name: cargo clippy
+        entry: cargo clippy --workspace
+        language: system
+        pass_filenames: false
