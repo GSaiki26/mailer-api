@@ -5,7 +5,7 @@ use serde::Deserialize;
 // Schema
 #[derive(Debug, Deserialize)]
 pub struct Settings {
-    log_level: String,
+    // log_level: String,
 }
 
 // Functions

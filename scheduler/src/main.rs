@@ -14,8 +14,8 @@ use utils::{get_db, get_transport, setup_logger, MailSettings, SMTPSettings, Set
 mod schemas;
 mod utils;
 
-const ERROR_CREATE_MSG_LETTRE: &'static str = "Failed to create message due to bad creation. As the mail probably is invalid, it'll loop forever. Call the support.";
-const ERROR_CREATE_MSG_DB: &'static str =
+const ERROR_CREATE_MSG_LETTRE: &str = "Failed to create message due to bad creation. As the mail probably is invalid, it'll loop forever. Call the support.";
+const ERROR_CREATE_MSG_DB: &str =
     "Failed to create message due to database error. Check the database status.";
 
 #[tokio::main]
@@ -84,7 +84,7 @@ async fn send_mails<'a>(state: &State<'a>, mails_to_send: Vec<mail::Model>) {
             continue;
         }
 
-        let message = match mail.to_message(&state.db, &state.sender).await {
+        let message = match mail.to_message(state.db, &state.sender).await {
             Ok(message) => message,
             Err(ModelError::LettreError(err)) => {
                 warn!(err = format!("{:?}", err), ERROR_CREATE_MSG_LETTRE);
