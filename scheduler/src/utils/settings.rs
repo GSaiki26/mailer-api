@@ -9,9 +9,25 @@ pub trait Settings {
 }
 
 #[derive(Debug, Deserialize, Validate)]
+pub struct OtherSettings {
+    pub log_level: String,
+}
+
+impl Settings for OtherSettings {
+    fn from_env() -> Result<OtherSettings, ConfigError> {
+        Config::builder()
+            .add_source(Environment::default())
+            .build()?
+            .try_deserialize()
+    }
+}
+
+#[derive(Debug, Deserialize, Validate)]
 pub struct DatabaseSettings {
     #[validate(url)]
     pub dsn: String,
+
+    pub timeout_secs: u64,
 }
 
 impl Settings for DatabaseSettings {
@@ -25,8 +41,8 @@ impl Settings for DatabaseSettings {
 
 #[derive(Debug, Deserialize, Validate)]
 pub struct MailSettings {
-    pub cooldown_min: u64,
-    pub schedule_backoff_min: u64,
+    pub cooldown_secs: u64,
+    pub schedule_backoff_secs: u64,
 }
 
 impl Settings for MailSettings {
