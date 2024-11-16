@@ -17,10 +17,10 @@ impl MigrationTrait for Migration {
                     .col(array(Mail::Bcc, ColumnType::String(StringLen::N(320))).not_null())
                     .col(string(Mail::Subject).not_null())
                     .col(string(Mail::Body).not_null())
-                    .col(date_time(Mail::ScheduledAt).not_null())
+                    .col(timestamp_with_time_zone(Mail::ScheduledAt).not_null())
                     .col(boolean(Mail::WasSent).not_null())
-                    .col(date_time(Mail::CreatedAt).not_null())
-                    .col(date_time(Mail::UpdatedAt).not_null())
+                    .col(timestamp_with_time_zone(Mail::CreatedAt).not_null())
+                    .col(timestamp_with_time_zone(Mail::UpdatedAt).not_null())
                     .to_owned(),
             )
             .await?;
@@ -35,8 +35,8 @@ impl MigrationTrait for Migration {
                     .col(string(Attachment::Filename).not_null())
                     .col(binary(Attachment::Content).not_null())
                     .col(string(Attachment::ContentType).not_null())
-                    .col(date_time(Attachment::CreatedAt).not_null())
-                    .col(date_time(Attachment::UpdatedAt).not_null())
+                    .col(timestamp_with_time_zone(Attachment::CreatedAt).not_null())
+                    .col(timestamp_with_time_zone(Attachment::UpdatedAt).not_null())
                     .to_owned(),
             )
             .await

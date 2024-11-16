@@ -1,5 +1,6 @@
 use std::process::exit;
 
+use chrono::Utc;
 use models::mail;
 use sea_orm::{ActiveModelTrait, ActiveValue, DatabaseConnection, DbErr};
 use tracing::{error, info};
@@ -17,19 +18,23 @@ impl<'a> MailManagerService<'a> {
     }
 
     pub async fn add_schedule_backoff(&self, mail: mail::Model) {
-        info!("Adding backoff to mail...");
-
         let backoff = std::time::Duration::from_secs(self.mail_settings.schedule_backoff_secs);
         let new_scheduled_at = mail.scheduled_at + backoff;
 
+        info!(
+            original_schedule = %mail.scheduled_at,
+            new_schedule = %new_scheduled_at,
+            "Adding backoff to mail...");
         let model_with_backoff = mail::ActiveModel {
+            id: ActiveValue::Set(mail.id),
             scheduled_at: ActiveValue::Set(new_scheduled_at),
+            updated_at: ActiveValue::Set(Utc::now()),
             ..Default::default()
         };
 
         info!("Updating mail with backoff...");
         if let Err(err) = model_with_backoff.update(self.db).await {
-            error!(err = format!("{:?}", err), "Failed to add backoff to mail.");
+            error!(err = %err, "Failed to add backoff to mail.");
             exit(1);
         }
 
@@ -42,6 +47,7 @@ impl<'a> MailManagerService<'a> {
         let new_mail_model = mail::ActiveModel {
             id: ActiveValue::Set(mail.id),
             was_sent: ActiveValue::Set(true),
+            updated_at: ActiveValue::Set(Utc::now()),
             ..Default::default()
         };
 

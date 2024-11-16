@@ -1,5 +1,8 @@
 use lettre::{
-    message::{header::ContentType, Attachment, MultiPart},
+    message::{
+        header::{self, ContentType},
+        Attachment, MultiPart, SinglePart,
+    },
     Message,
 };
 use sea_orm::entity::prelude::*;
@@ -65,7 +68,9 @@ impl Model {
         db: &DatabaseConnection,
         sender: &str,
     ) -> Result<Message, ModelError> {
-        let mut mail = Message::builder().from(sender.parse().unwrap());
+        let mut mail = Message::builder()
+            .from(sender.parse().unwrap())
+            .subject(self.subject.clone());
         for to in self.to.clone() {
             mail = mail.to(to.parse().unwrap());
         }
@@ -77,7 +82,12 @@ impl Model {
         }
 
         let attachs: Vec<attachment::Model> = self.find_related(attachment::Entity).all(db).await?;
-        let mut multipart = MultiPart::related().build();
+        let mut multipart = MultiPart::related().build().singlepart(
+            SinglePart::builder()
+                .content_type(header::ContentType::TEXT_HTML)
+                .body(self.body.clone()),
+        );
+
         for attach in attachs {
             let content_type = ContentType::parse(&attach.content_type).unwrap();
             let lettre_attach = Attachment::new(attach.filename).body(attach.content, content_type);

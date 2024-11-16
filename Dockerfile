@@ -24,7 +24,9 @@ COPY --chmod=500 ./Cargo.* ./
 COPY --chmod=500 ./api ./api
 COPY --chmod=500 ./models ./models
 COPY --chmod=500 ./scheduler ./scheduler
-RUN cargo build --release
+
+ARG BINARY_NAME
+RUN cargo build --release --bin $BINARY_NAME
 
 # RUNNER
 FROM rust:1.82-alpine AS runner

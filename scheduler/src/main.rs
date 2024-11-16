@@ -51,7 +51,7 @@ async fn main() {
     loop {
         let mails_to_send = get_mails_to_send(&db).await;
         if let Err(err) = mails_to_send {
-            error!(err = format!("{:?}", err), "Failed to fetch mails.");
+            error!(err = %err, "Failed to fetch mails.");
             exit(1);
         };
 
@@ -66,20 +66,20 @@ async fn main() {
             match smtp_svc.send_mail(&db, &mail).await {
                 Err(MessageCreationError(LettreError(err))) => {
                     warn!(
-                        err = format!("{:?}", err),
+                        err = %err,
                         "Couldn\'t create message. As the mail is invalid, it'll loop forever."
                     );
                 }
                 Err(MessageCreationError(DatabaseError(err))) => {
                     error!(
-                        err = format!("{:?}", err),
+                        err = %err,
                         "Couldn\'t create message due to database error. Check the database status."
                     );
                     exit(1);
                 }
                 Err(SendMailError::TransportError(err)) => {
                     warn!(
-                        err = format!("{:?}", err),
+                        err = %err,
                         "Couldn\'t send message due to transport error."
                     );
                     can_send = false;
@@ -88,7 +88,7 @@ async fn main() {
                 Ok(_) => {
                     if let Err(err) = mail_mgr.set_mail_as_sent(mail).await {
                         error!(
-                            err = format!("{:?}", err),
+                            err = %err,
                             "Couldn\'t set mail as sent. Check the database status."
                         );
                         exit(1);
