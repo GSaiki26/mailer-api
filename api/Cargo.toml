@@ -8,7 +8,7 @@ name = "api"
 path = "./src/main.rs"
 
 [dependencies]
-axum = { version = "0.7.7", default-features = true, features = [] }
+axum = { version = "0.7.8", default-features = true, features = [] }
 base64 = { version = "0.22.1", default-features = true }
 chrono = { version = "0.4.38", default-features = false, features = ["clock"] }
 config = { version = "0.14.0", default-features = false, features = ["yaml"] }
