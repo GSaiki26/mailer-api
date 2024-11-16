@@ -1,0 +1,31 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    user: 1000:1000
+    ports: [5432:5432/tcp]
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - ./vol/db:/var/lib/postgresql/data:rw
+
+  mailer-scheduler:
+    container_name: mailer-scheduler
+    build:
+      context: .
+      args:
+        BINARY_NAME: scheduler
+    entrypoint: ["/app/scheduler"]
+    env_file: ./scheduler/.env
+    depends_on: [postgres]
+
+  mailer-api:
+    container_name: mailer-api
+    build:
+      context: .
+      args:
+        BINARY_NAME: api
+    entrypoint: ["/app/api"]
+    env_file: ./api/.env
+    depends_on: [postgres]
