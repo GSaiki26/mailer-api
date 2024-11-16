@@ -78,7 +78,7 @@ dependencies = [
 
 [[package]]
 name = "api"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "axum",
  "base64",
@@ -1348,7 +1348,7 @@ dependencies = [
 
 [[package]]
 name = "models"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "chrono",
  "lettre",
@@ -1955,7 +1955,7 @@ checksum = "f3cb5ba0dc43242ce17de99c180e96db90b235b8a9fdc9543c96d2209116bd9f"
 
 [[package]]
 name = "scheduler"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "chrono",
  "config",
