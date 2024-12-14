@@ -76,13 +76,13 @@ impl MailService {
     pub async fn insert_attachments(
         &self,
         mail_id: Uuid,
-        attachments: &Vec<AttachmentIn>,
+        attachments: &[AttachmentIn],
     ) -> Result<(), (StatusCode, Json<APIResponse>)> {
         info!("Inserting attachments into database...");
         let db = self.db.write().await;
 
         let attachs_models: Vec<attachment::ActiveModel> = attachments
-            .into_iter()
+            .iter()
             .map(|att| att.to_model(mail_id))
             .collect();
 
@@ -101,12 +101,12 @@ impl MailService {
             }
             Err(err) => {
                 error!(error = %err, "Failed to insert attachments into database.");
-                return Err((
+                Err((
                     StatusCode::INTERNAL_SERVER_ERROR,
                     Json(APIResponse::error_with_message(String::from(
                         "Failed to save the attachments.",
                     ))),
-                ));
+                ))
             }
         }
     }
@@ -125,12 +125,12 @@ impl MailService {
             }
             Err(err) => {
                 error!(error = %err, "Failed to fetch attachments from database.");
-                return Err((
+                Err((
                     StatusCode::INTERNAL_SERVER_ERROR,
                     Json(APIResponse::error_with_message(String::from(
                         "Failed to fetch the attachments.",
                     ))),
-                ));
+                ))
             }
         }
     }

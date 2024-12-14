@@ -65,7 +65,7 @@ pub struct MailIn {
 impl From<MailIn> for mail::ActiveModel {
     fn from(mail: MailIn) -> Self {
         let created_at = Utc::now();
-        let scheduled_at = mail.scheduled_at.unwrap_or_else(|| created_at);
+        let scheduled_at = mail.scheduled_at.unwrap_or(created_at);
 
         mail::ActiveModel {
             id: ActiveValue::Set(Uuid::now_v7()),

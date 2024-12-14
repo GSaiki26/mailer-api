@@ -60,11 +60,11 @@ pub async fn get_mail(
     let attachments = state.mail_svc.find_attachments(&mail).await?;
 
     info!("Returning result...");
-    return Ok((
+    Ok((
         StatusCode::CREATED,
         Json(APIResponse::success_with_data(mail_model_to_out(
             mail,
             attachments.into_iter().map(|att| att.into()).collect(),
         ))),
-    ));
+    ))
 }
