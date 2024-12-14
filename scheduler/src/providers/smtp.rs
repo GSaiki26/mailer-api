@@ -1,3 +1,5 @@
+use std::time::Duration;
+
 use lettre::{
     transport::smtp, transport::smtp::authentication::Credentials, AsyncSmtpTransport,
     AsyncTransport, Message, Tokio1Executor,
@@ -21,6 +23,7 @@ impl SMTPProvider {
         Self {
             transport: lettre::AsyncSmtpTransport::<Tokio1Executor>::relay(&smtp_settings.host)
                 .unwrap()
+                .timeout(Some(Duration::from_secs(smtp_settings.timeout_secs)))
                 .credentials(creds)
                 .build(),
         }

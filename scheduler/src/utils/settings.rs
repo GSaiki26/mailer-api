@@ -63,6 +63,8 @@ pub struct SMTPSettings {
 
     #[validate(email)]
     pub sender: String,
+
+    pub timeout_secs: u64,
 }
 
 impl Settings for SMTPSettings {
