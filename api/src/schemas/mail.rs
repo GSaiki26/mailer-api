@@ -91,6 +91,7 @@ pub struct MailOut {
     pub subject: String,
     pub body: String,
     pub scheduled_at: DateTimeUtc,
+    pub was_sent: bool,
     pub attachments: Vec<AttachmentOut>,
     pub created_at: String,
     pub updated_at: String,

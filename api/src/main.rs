@@ -1,5 +1,8 @@
-use axum::{routing::post, Router};
-use controllers::post_send;
+use axum::{
+    routing::{get, post},
+    Router,
+};
+use controllers::{get_mail, post_mail};
 use schemas::APIState;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
 use services::MailService;
@@ -40,7 +43,9 @@ async fn main() {
     let state = APIState {
         mail_svc: Arc::new(mail_svc),
     };
-    let router = Router::new().route("/mail", post(post_send));
+    let router = Router::new()
+        .route("/mail", post(post_mail))
+        .route("/mail/:mail_id", get(get_mail));
 
     let app = Router::new().nest("/api/v1", router).with_state(state);
     let addr = "0.0.0.0:3000";

@@ -46,6 +46,33 @@ impl MailService {
         }
     }
 
+    pub async fn find_mail(
+        &self,
+        mail_id: Uuid,
+    ) -> Result<Option<mail::Model>, (StatusCode, Json<APIResponse>)> {
+        let span = tracing::info_span!("", mail_id = %mail_id);
+        let _guard = span.enter();
+
+        info!("Finding mail in database...");
+        let db = self.db.read().await;
+
+        match mail::Entity::find_by_id(mail_id).one(&*db).await {
+            Ok(mail) => {
+                info!("Mail successfully found.");
+                Ok(mail)
+            }
+            Err(err) => {
+                error!(error = %err, "Failed to find mail in database.");
+                Err((
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    Json(APIResponse::error_with_message(String::from(
+                        "Failed to find the mail.",
+                    ))),
+                ))
+            }
+        }
+    }
+
     pub async fn insert_attachments(
         &self,
         mail_id: Uuid,

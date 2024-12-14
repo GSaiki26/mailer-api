@@ -56,7 +56,9 @@ async fn main() {
         };
 
         let mut can_send = true;
-        for mail in mails_to_send.unwrap() {
+        let mails_to_send = mails_to_send.unwrap();
+
+        for mail in mails_to_send.clone() {
             if !can_send {
                 info!("Send to mail is disabled.");
                 mail_mgr.add_schedule_backoff(mail).await;
@@ -97,6 +99,9 @@ async fn main() {
             }
         }
 
+        if mails_to_send.is_empty() {
+            info!("No mails found.");
+        }
         info!(sleep_secs = mail_settings.cooldown_secs, "Sleeping...");
         sleep(sleep_duration).await;
     }

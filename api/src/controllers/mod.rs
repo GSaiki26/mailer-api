@@ -1,5 +1,5 @@
 use axum::{http::StatusCode, Json};
-pub use mail::post_send;
+pub use mail::{get_mail, post_mail};
 use tracing::info;
 use validator::Validate;
 

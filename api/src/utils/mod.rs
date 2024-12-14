@@ -29,6 +29,7 @@ pub fn mail_model_to_out(mail: mail::Model, attachments: Vec<AttachmentOut>) -> 
         subject: mail.subject,
         body: mail.body,
         scheduled_at: mail.scheduled_at,
+        was_sent: mail.was_sent,
         attachments,
         created_at: mail.created_at.to_string(),
         updated_at: mail.updated_at.to_string(),
