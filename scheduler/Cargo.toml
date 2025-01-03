@@ -10,7 +10,7 @@ path = "./src/main.rs"
 [dependencies]
 models = { path = "../models" }
 chrono = { version = "0.4.38", default-features = false }
-config = { version = "0.14.0", default-features = false, features = ["yaml"] }
+config = { version = "0.15.4", default-features = false, features = ["yaml"] }
 lettre = { version = "0.11.10", default-features = false, features = [
   "builder",
   "hostname",
