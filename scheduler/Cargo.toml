@@ -24,7 +24,7 @@ sea-orm = { version = "1.1.4", default-features = true, features = [
   "sqlx-postgres",
 ] }
 serde = { version = "1.0.217", default-features = false, features = ["derive"] }
-tokio = { version = "1.41.1", default-features = false, features = [
+tokio = { version = "1.44.1", default-features = false, features = [
   "macros",
   "rt-multi-thread",
 ] }
