@@ -17,7 +17,7 @@ sea-orm = { version = "1.1.4", default-features = true, features = [
   "sqlx-postgres",
 ] }
 serde = { version = "1.0.217", default-features = false }
-uuid = { version = "1.11.1", default-features = false }
+uuid = { version = "1.16.0", default-features = false }
 validator = { version = "0.19.0", default-features = false, features = [
   "derive",
 ] }
